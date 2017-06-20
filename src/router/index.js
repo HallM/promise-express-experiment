@@ -83,12 +83,16 @@ Router.prototype.handle = function handle(req, res) {
       }).catch(function(err) {
         // console.log(pret);
         if (!hasCatch(thisPromise)) {
-          // bubble up if the user wouldnt have handled it
-          lastReject(err);
-        }
+          // then remove any then statements?
+          thisPromise._promise0 = undefined;
+          thisPromise._fulfillmentHandler0 = undefined;
 
-        // we have to reject it, otherwise the .then would be called
-        return Promise.reject(err);
+          // and last bubble up if the user wouldnt have handled it
+          lastReject(err);
+        } else {
+          // reject it to call the catch handler
+          return Promise.reject(err);
+        }
       });
 
       return thisPromise;

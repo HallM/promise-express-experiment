@@ -107,12 +107,17 @@ function runList() {
       }).catch(function(err) {
         // console.log(pret);
         if (!hasCatch(pret)) {
-          // bubble up if the user wouldnt have handled it
-          prej(err);
-        }
+          // then remove any then statements?
+          pret._promise0 = undefined;
+          pret._fulfillmentHandler0 = undefined;
 
-        // we have to reject it, otherwise the .then would be called
-        return Promise.reject(err);
+          // and bubble up if the user wouldnt have handled it
+          prej(err);
+        } else {
+          // we have to reject it, otherwise the .then would be called
+          return Promise.reject(err);
+        }
+        // return Promise.reject(err);
       });
 
       // setImmediate(function() {
