@@ -14,7 +14,6 @@
 
 var contentDisposition = require('content-disposition');
 var contentType = require('content-type');
-var deprecate = require('depd')('express');
 var flatten = require('array-flatten');
 var mime = require('send').mime;
 var basename = require('path').basename;
@@ -72,17 +71,6 @@ exports.isAbsolute = function(path){
 };
 
 /**
- * Flatten the given `arr`.
- *
- * @param {Array} arr
- * @return {Array}
- * @api private
- */
-
-exports.flatten = deprecate.function(flatten,
-  'utils.flatten: use array-flatten npm module instead');
-
-/**
  * Normalize the given `type`, for example "html" becomes "text/html".
  *
  * @param {String} type
@@ -113,18 +101,6 @@ exports.normalizeTypes = function(types){
 
   return ret;
 };
-
-/**
- * Generate Content-Disposition header appropriate for the filename.
- * non-ascii filenames are urlencoded and a filename* parameter is added
- *
- * @param {String} filename
- * @return {String}
- * @api private
- */
-
-exports.contentDisposition = deprecate.function(contentDisposition,
-  'utils.contentDisposition: use content-disposition npm module instead');
 
 /**
  * Parse accept params `str` returning an

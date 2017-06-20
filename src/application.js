@@ -23,7 +23,6 @@ var http = require('http');
 var compileETag = require('./utils').compileETag;
 var compileQueryParser = require('./utils').compileQueryParser;
 var compileTrust = require('./utils').compileTrust;
-var deprecate = require('depd')('express');
 var flatten = require('array-flatten');
 var merge = require('utils-merge');
 var resolve = require('path').resolve;
@@ -117,12 +116,6 @@ app.defaultConfiguration = function defaultConfiguration() {
   if (env === 'production') {
     this.enable('view cache');
   }
-
-  Object.defineProperty(this, 'router', {
-    get: function() {
-      throw new Error('\'app.router\' is deprecated!\nPlease see the 3.x to 4.x migration guide for details on how to update your app.');
-    }
-  });
 };
 
 /**
