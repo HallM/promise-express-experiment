@@ -72,7 +72,7 @@ app.use(function(req, res, next) {
 });
 
 app.get('/', function(req, res) {
-  return res.render('wrong');
+  return res.render('index');
 });
 
 app.listen(3000, function() {

@@ -49,8 +49,8 @@ Router.prototype.handle = function handle(req, res) {
       let nextPromise = null;
       if (index === chainLength) {
         // if this is the last item, then it resolves immediately since there is no next
+        // we don't unset prevReject, even though next is not available. just to be safe
         prevResolve = null;
-        prevReject = null;
         nextPromise = Promise.resolve();
       } else {
         nextPromise = new Promise(function(resolve, reject) {
@@ -62,7 +62,11 @@ Router.prototype.handle = function handle(req, res) {
       const middleware = chain[i];
 
       // nextFn is only available for non-ending middleware
-      const nextFn = (i + 1) === chainLength ? undefined : function next() {
+      const nextFn = (i + 1) === chainLength ? undefined : function next(err) {
+        if (err != null) {
+          return Promise.reject(err);
+        }
+
         return dispatch(i + 1);
       }
 

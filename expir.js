@@ -21,12 +21,16 @@ function b(next) {
   }, 100);
 }
 
-function end(next) {
-  console.log('finally');
-  return Promise.reject('an error');
+function c(next) {
+  console.log('pre-c');
+  next('err');
 }
 
-const list = [a, b].concat(end);
+function end() {
+  console.log('finally');
+}
+
+const list = [a, b, c].concat(end);
 const length = list.length;
 
 runList().then(() => {
@@ -55,7 +59,12 @@ function runList() {
 
     next();
 
-    function next() {
+    function next(err) {
+      if (err != null) {
+        prevReject(err);
+        return;
+      }
+
       if (index >= length) {
         prevResolve && prevResolve();
         return;
@@ -75,7 +84,8 @@ function runList() {
       if (index === length) {
         // if this is the last item, then it resolves immediately since there is no next
         prevResolve = null;
-        prevReject = null;
+        // dont unset prevReject
+        // prevReject = null;
         p1 = Promise.resolve();
       } else {
         p1 = new Promise(function(resolve, reject) {
