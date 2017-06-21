@@ -3,6 +3,7 @@
 const TrieRouter = require('./router');
 const methods = require('methods');
 const Promise = require('bluebird');
+const hasCatch = require('../utils').hasCatch;
 
 function Router() {
   this.router = new TrieRouter();
@@ -144,22 +145,6 @@ function _getMiddlewareChain(route, method) {
   }
 
   return chain;
-}
-
-function hasCatch(promise) {
-  if (!promise) {
-    return false;
-  }
-
-  if (promise._rejectionHandler0) {
-    return true;
-  }
-
-  if (promise._promise0) {
-    return hasCatch(promise._promise0);
-  }
-
-  return false;
 }
 
 module.exports = Router;

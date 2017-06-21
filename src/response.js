@@ -12,6 +12,7 @@
  * @private
  */
 
+var Promise = require('bluebird');
 var contentDisposition = require('content-disposition');
 var encodeUrl = require('encodeurl');
 var escapeHtml = require('escape-html');
@@ -25,6 +26,7 @@ var sign = require('cookie-signature').sign;
 var normalizeType = require('./utils').normalizeType;
 var normalizeTypes = require('./utils').normalizeTypes;
 var setCharset = require('./utils').setCharset;
+var hasCatch = require('./utils').hasCatch;
 var cookie = require('cookie');
 var send = require('send');
 var extname = path.extname;

@@ -250,6 +250,24 @@ exports.setCharset = function setCharset(type, charset) {
   return contentType.format(parsed);
 };
 
+// bluebird only!
+exports.hasCatch = function hasCatch(promise) {
+  if (!promise) {
+    return false;
+  }
+
+  if (promise._rejectionHandler0) {
+    return true;
+  }
+
+  if (promise._promise0) {
+    return hasCatch(promise._promise0);
+  }
+
+  return false;
+};
+
+
 /**
  * Parse an extended query string with qs.
  *
